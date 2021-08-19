@@ -35,7 +35,53 @@ yargs.command({
         // console.log(contact);
 
     }
+}).demandCommand()
+
+
+
+// menampilkan all data name and phone number
+
+yargs.command({
+    command: 'list',
+    describe: "Show all data name and phone number",
+    handler() {
+        contacts.listContact();
+    }
 })
+
+
+// show detail contact
+yargs.command({
+    command: 'detail',
+    describe: "Shoe detail contact base on name",
+    builder: {
+        name: {
+            describe: "Fullname",
+            demandOption: true,
+            type: "string"
+        }
+    },
+    handler(argv){
+        contacts.detailContact(argv.name);
+    }
+})
+
+//delate contact base on name
+yargs.command({
+    command: 'delete',
+    describe: "Delete Contact base on name",
+    builder: {
+        name: {
+            describe: "Fullname",
+            demandOption: true,
+            type: "string"
+        }
+    },
+    handler(argv){
+        contacts.deleteContact(argv.name);
+    }
+})
+
 
 yargs.parse();
 // console.log(yargs.argv);

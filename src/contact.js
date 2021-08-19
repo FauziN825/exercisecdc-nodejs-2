@@ -43,13 +43,20 @@ const writeQuestion = (question) => {
     });
 }
 
+const loadContact = () => {
+    const fileBuffer = fs.readFileSync('./src/data/contact.json', 'utf-8');
+    const contacts = JSON.parse(fileBuffer)
+    return contacts
+
+}
 
 
 const saveContact =  (name, noHp, address) => {
 
     const contact = {name, noHp, address}
-    const fileBuffer = fs.readFileSync('./src/data/contact.json', 'utf-8');
-    const contacts = JSON.parse(fileBuffer)
+    // const fileBuffer = fs.readFileSync('./src/data/contact.json', 'utf-8');
+    // const contacts = JSON.parse(fileBuffer)
+    const contacts = loadContact()
 
     // cek duplikat
     const duplicate = contacts.find((contact) => contact.name === name)
@@ -92,4 +99,58 @@ const saveContact =  (name, noHp, address) => {
     
 }
 
-module.exports = {writeQuestion, saveContact}
+
+const listContact = () => {
+    const contacts = loadContact();
+    contacts.forEach((contact, i) => {
+        console.log(`${i+1}. ${contact.name} - ${contact.noHp}`);
+        
+    });
+    rl.close()
+}
+
+
+const detailContact = (name) =>{
+    const contacts = loadContact();
+
+    const contact = contacts.find((contact) => contact.name.toLowerCase() === name.toLowerCase())
+    // contacts.find
+
+    if(!contact){
+        console.log("Name not found");
+    }
+
+    else {
+        console.log(contact.name);
+        console.log(contact.noHp);
+        if(contact.address){
+            console.log(contact.address);
+        }
+        
+    }
+    rl.close()
+}
+
+
+const deleteContact = (name) => {
+    console.log(name);
+
+    const contacts = loadContact();
+    console.log(contacts);
+    const newContact = contacts.filter(
+        (contact) => contact.name !== name
+    )
+    console.log(newContact);
+
+    if(contacts.length === newContact.length){
+        console.log(`${name} Tidak ditemukan`);
+        rl.close();
+        return false
+    }
+
+    fs.writeFileSync('./src/data/contact.json', JSON.stringify(newContact))
+    console.log(`Data ${name} sucessfully deleted`);
+
+    rl.close()
+}
+module.exports = {writeQuestion, saveContact, listContact, detailContact, deleteContact}
