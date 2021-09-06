@@ -1,0 +1,14 @@
+
+Contact App Project
+
+Contact Has : validation
+        fullname : contains alphabet only
+        phone number : contains only number and '+'
+        address : maximum lenght
+
+user can add a CONTACT		
+user can edit a CONTACT		
+user can delete a CONTACT		
+user can sort CONTACTs by name, address		
+all CONTACT values validated		
+user can navigate through navigation		
